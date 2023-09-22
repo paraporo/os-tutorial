@@ -1,7 +1,7 @@
-BITS 64
+global _start
 
-jmp $
+section .text
 
-times 510-($-$$) db 0
-dw 0xaa55
-
+_start:
+	mov ah, 0x0e
+	mov al, 12
