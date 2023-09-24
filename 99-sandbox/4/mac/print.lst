@@ -1,0 +1,22 @@
+     1                                  global _main
+     2                                  
+     3                                  
+     4                                  section .text
+     5                                  
+     6                                  _main:
+     7 00000000 B804000020                  mov rax, 0x20000004
+     8 00000005 BF01000000                  mov rdi, 1
+     9 0000000A 488D35(00000000)            lea rsi, [rel msg]
+    10 00000011 BA0E000000                  mov rdx, msg.len
+    11 00000016 0F05                        syscall
+    12                                  
+    13 00000018 B801000020                  mov rax, 0x20000001
+    14 0000001D BF00000000                  mov rdi, 0
+    15 00000022 0F05                        syscall
+    16                                  
+    17                                  
+    18                                  section .data
+    19                                  
+    20 00000000 48656C6C6F2C20576F-     msg:    db  "Hello, World!", 10
+    20 00000009 726C64210A         
+    21                                  .len:   equ $ - msg

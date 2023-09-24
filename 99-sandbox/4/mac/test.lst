@@ -1,0 +1,14 @@
+     1                                  global _main
+     2                                  
+     3                                  section .text
+     4                                  
+     5                                  _main:
+     6 00000000 B800000000              	mov rax, 0x00000000
+     7 00000005 BF3C000000              	mov rdi, 60
+     8 0000000A 0F05                    	syscall
+     9                                  
+    10                                  
+    11                                  ;last:
+    12                                  ;	mov rax, EXIT_SUCCESS
+    13                                  ;	mov rdi, SYS_exit
+    14                                  ;	syscall

@@ -1,0 +1,20 @@
+body {
+	margin: 0;
+}
+
+@keyframes rainbow {
+	0% {background-position-x: 0vw}
+	50% {background-position-x: 100vw; filter: hue-rotate(360deg);}
+	100% {background-position-x: 200vw;}
+}
+
+.background {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;	
+	background: rgb(148,187,233);
+	background: linear-gradient(90deg, rgba(148,187,233,1) 0%, rgb(255, 0, 111) 50%, rgba(148,187,233,1) 100%);
+	background-size: 200% 100%;
+	animation: rainbow 1s linear infinite;
+}
+

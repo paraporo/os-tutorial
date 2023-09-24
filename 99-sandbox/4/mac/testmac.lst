@@ -1,0 +1,91 @@
+     1                                  bits 64
+     2                                  
+     3                                  section .data
+     4                                  
+     5                                  EXIT_SUCCESS equ 0
+     6                                  SYS_exit equ 60
+     7                                  
+     8                                  printLineCount equ 10
+     9                                  squareSize equ 10
+    10                                  
+    11 00000000 48656C6C6F20576F72-     hello db "Hello World!", 0xA
+    11 00000009 6C64210A           
+    12 0000000D 58                      squareChar db 'X'
+    13 0000000E 0A                      newLine db 0xA
+    14 0000000F 42                      leftChar db 'B'
+    15 00000010 44                      middleChar db 'D'
+    16 00000011 48                      rightChar db 'H'
+    17                                  
+    18                                  section .text
+    19                                  global _main
+    20                                  _main:
+    21                                  	; Linux Preparation
+    22                                  	; mov rdi, 1; mov ebx, 1
+    23 00000000 BA01000000              	mov rdx, 1
+    24 00000005 41B00A                  	mov r8b, squareSize
+    25 00000008 EB05                    	jmp printSquare
+    26                                  printSquareReturn:
+    27 0000000A E98E000000              	jmp last
+    28                                  
+    29                                  ; Print square
+    30                                  printSquare:
+    31 0000000F 41B100                  	mov r9b, 0
+    32                                  printSquareLoop:
+    33 00000012 4538C1                  	cmp r9b, r8b
+    34 00000015 7DF3                    	jge printSquareReturn
+    35 00000017 41B20A                  	mov r10b, squareSize
+    36 0000001A EB3E                    	jmp printLineBetter
+    37                                  printLineReturn:
+    38 0000001C B804000002              	mov rax, 0x02000004; mov eax, 4
+    39 00000021 48BE-                   	mov rsi, newLine
+    39 00000023 [0E00000000000000] 
+    40 0000002B BA01000000              	mov rdx, 1
+    41 00000030 0F05                    	syscall; int 0x80
+    42 00000032 4180C101                	add r9b, 1
+    43 00000036 4538C1                  	cmp r9b, r8b
+    44 00000039 EBD7                    	jmp printSquareLoop
+    45                                  
+    46                                  ; Print hello line
+    47                                  printLine:
+    48 0000003B 41B300                  	mov r11b, 0
+    49 0000003E 48BE-                   	mov rsi, squareChar
+    49 00000040 [0D00000000000000] 
+    50                                  printLineLoop:
+    51 00000048 4538D3                  	cmp r11b, r10b
+    52 0000004B 7DCF                    	jge printLineReturn
+    53 0000004D B804000002              	mov rax, 0x02000004; mov rax, 4
+    54 00000052 0F05                    	syscall; int 0x80
+    55 00000054 4180C301                	add r11b, 1
+    56 00000058 EBEE                    	jmp printLineLoop
+    57                                  
+    58                                  printLineBetter:
+    59 0000005A 41B300                  	mov r11b, 0
+    60                                  printLineBetterLoop:
+    61 0000005D 4538D3                  	cmp r11b, r10b
+    62 00000060 7DBA                    	jge printLineReturn
+    63 00000062 B804000002              	mov rax, 0x02000004; mov rax, 4
+    64 00000067 4538CB                  	cmp r11b, r9b
+    65 0000006A 7219                    	jb setLeftChar
+    66 0000006C 7F23                    	jg setRightChar
+    67 0000006E 48BE-                   	mov rsi, middleChar
+    67 00000070 [1000000000000000] 
+    68                                  	setCharReturn:
+    69 00000078 BA01000000              	mov rdx, 1
+    70 0000007D 0F05                    	syscall; int 0x80
+    71 0000007F 4180C301                	add r11b, 1
+    72 00000083 EBD8                    	jmp printLineBetterLoop
+    73                                  
+    74                                  setLeftChar:
+    75 00000085 48BE-                   	mov rsi, leftChar
+    75 00000087 [0F00000000000000] 
+    76 0000008F EBE7                    	jmp setCharReturn
+    77                                  
+    78                                  setRightChar:
+    79 00000091 48BE-                   	mov rsi, rightChar
+    79 00000093 [1100000000000000] 
+    80 0000009B EBDB                    	jmp setCharReturn
+    81                                  
+    82                                  last:
+    83 0000009D B801000002              	mov rax, 0x02000001; mov rax, SYS_exit
+    84                                  	; mov rdi, EXIT_SUCCESS
+    85 000000A2 0F05                    	syscall 	

@@ -1,0 +1,13 @@
+if [ -z $1 ]; then
+  	echo "Usage: ./asm64 <asmMainFile> (no extenstion) "
+  	exit
+fi
+
+if [ ! -e "$1.asm" ]; then
+	echo "Error, $1.asm not found."
+	echo "Note, do not enter file extensions."
+	exit
+fi
+
+nasm -Worphan-labels -f macho64 $1.asm -l $1.lst
+ld -o $1 $1.o -macosx_version_min 10.13 -L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib -lSystem

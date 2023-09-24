@@ -1,0 +1,17 @@
+     1                                  global _main
+     2                                  
+     3                                  section .data
+     4                                  
+     5 00000000 FF                      bVal db 0b11111111
+     6                                  
+     7                                  section .text
+     8                                  _main:
+     9 00000000 8A0425[00000000]        	mov al, byte [bVal]
+     9          ******************       error: Mach-O 64-bit format does not support 32-bit absolute addresses
+    10                                  	
+    11                                  
+    12                                  
+    13                                  last:
+    14 00000007 B801000002              	mov rax, 0x02000001
+    15 0000000C 4831FF                  	xor rdi, rdi
+    16 0000000F 0F05                    	syscall
