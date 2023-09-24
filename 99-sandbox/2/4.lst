@@ -8,15 +8,21 @@
      8                                 EXIT_SUCCESS equ 0
      9                                 SYS_exit equ 60
     10                                 
-    11 00000000 F0DEBC9A78563412       qVal dq 0x123456789ABCDEF0
+    11 00000000 FFFFFFFF               dVal1 dd 0xffffffff
     12                                 
-    13                                 [section .text]
-    14                                 [global _start]
-    15                                 _start:
-    16 00000000 488B0425[00000000]      mov rax, [qVal]
-    17                                 
-    18                                 last:
-    19 00000008 48C7C000000000          mov rax, EXIT_SUCCESS
-    20 0000000F 48C7C73C000000          mov rdi, SYS_exit
-    21 00000016 0F05                    syscall
-    22                                 
+    13 00000004 F0DEBC9A78563412       qVal1 dq 0x123456789ABCDEF0
+    14 0000000C 7B00000000000000       qVal2 dq 123
+    15                                 
+    16                                 [section .text]
+    17                                 [global _start]
+    18                                 _start:
+    19 00000000 488B0425[00000000]      mov rax, qword [qVal1]
+    20 00000008 8B0425[00000000]        mov eax, dword [qVal1]
+    21 0000000F 668B0425[00000000]      mov ax, word [qVal1]
+    22 00000017 8A0425[00000000]        mov al, byte [qVal1]
+    23 0000001E 488D1C25[00000000]      lea rbx, qword [qVal1]
+    24                                 last:
+    25 00000026 48C7C000000000          mov rax, EXIT_SUCCESS
+    26 0000002D 48C7C73C000000          mov rdi, SYS_exit
+    27 00000034 0F05                    syscall
+    28                                 
